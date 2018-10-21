@@ -11,8 +11,8 @@
 	        <div class="col-xs-12">
 	          <div class="box">
 	            <div class="box-header">
-	              <h3 class="box-title">User Add</h3>
-	              <a href="{{ url('user') }}">All Voucher</a>
+	              <h3 class="box-title">User Management Add</h3>
+	              <a href="{{ url('user') }}">All User Management</a>
 	              <div class="box-tools">
 	                <div class="input-group input-group-sm" style="width: 150px;">
 	                </div>
@@ -38,31 +38,39 @@
           		                </div>
           		            @endif
           		            <div class="box-body">
-          		              <form role="form" action="{{ route('voucher.store') }}" method="post">
+          		              <form role="form" action="{{ route('user.store') }}" method="post">
 
           		              {{csrf_field()}}
           		                <div class="form-group">
-          		                  <label>Name</label>
-          		                  <input type="text" name="name" class="form-control" placeholder="Enter ...">
+          		                  <label>Level Name</label>
+          		                  <!-- <input type="text" name="name" class="form-control" placeholder="Enter ..."> -->
+
+                                <select class="form-control m-bot15" name="level_name">
+
+                                    @if ($levels->count())
+
+                                        @foreach($levels as $level)
+                                            <option value="{{ $level->id }}" >{{ $level->level_name }}</option> 
+
+                                        @endforeach   
+
+                                    @endif
+
+                                </select>
           		                </div>
 
           		                <div class="form-group">
-          		                  <label>Amount</label>
-          		                  <input type="number" name="amount" class="form-control" placeholder="Enter ...">
+          		                  <label>Voucher Number</label>
+          		                  <input type="number" name="voucher_number" class="form-control" placeholder="Enter ...">
           		                </div>
 
-                              <div class="form-group">
-                                <label>Link Code</label>
-                                <input type="url" name="link_code" class="form-control" placeholder="Enter ...">
-                              </div>
-
-          		                <div class="form-group">
+          		                <!-- <div class="form-group">
                                   <label>Status</label>
                                   <select class="form-control" name="status">
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                   </select>
-                                </div>
+                                </div> -->
 
                                 <button class="btn btn-primary">Submit</button>
           		              </form>

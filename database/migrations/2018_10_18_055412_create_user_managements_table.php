@@ -17,6 +17,7 @@ class CreateUserManagementsTable extends Migration
             $table->increments('id');
             $table->string('level_name');
             $table->integer('voucher_number');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

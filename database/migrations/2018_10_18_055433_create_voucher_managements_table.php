@@ -20,6 +20,7 @@ class CreateVoucherManagementsTable extends Migration
             $table->integer('amount');
             $table->string('link_code');
             $table->enum('status', ['0', '1']);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

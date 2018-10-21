@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use App\Level;
+use App\UserManagement;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserManagementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-       return view('adminlte::userlist');
+        $users = UserManagement::all();
+        return view('adminlte::userlist', compact('users'));
     }
 
     /**
@@ -23,7 +27,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $levels = Level::all();
+        return view('adminlte::useradd', compact('levels'));
     }
 
     /**
@@ -34,7 +39,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $this->validate($request, [
+            'level_name' => 'required',
+            'voucher_number' => 'required',
+        ]);
+        USerManagement::create($request->all());
+        Session::flash('flash_message', 'User successfully added!');
+        return redirect()->back();
     }
 
     /**
@@ -56,7 +67,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $levels = Level::all();
+        $details = UserManagement::findOrFail($id);
+        return view('adminlte::user_edit', compact('levels', 'details'));
     }
 
     /**
@@ -68,7 +81,16 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+               'level_name' => 'required',
+               'voucher_number' => 'required',
+           ]);
+        $input = $request->all();
+        $user = UserManagement::findorfail($id);
+        $updateNow = $user->update($input);
+
+       Session::flash('flash_message', 'Task successfully Uddated!');
+       return redirect()->back();
     }
 
     /**
@@ -79,6 +101,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = UserManagement::find($id);
+        $user->delete();  
+        return redirect()->back();
     }
 }

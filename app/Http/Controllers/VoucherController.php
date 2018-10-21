@@ -56,7 +56,7 @@ class VoucherController extends Controller
      */
     public function show($id)
     {
-        dd($id);
+        //dd($id);
     }
 
     /**
@@ -81,7 +81,20 @@ class VoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //dd($request->all());
+        $this->validate($request, [
+               'name' => 'required',
+               'desc' => 'required',
+               'amount' => 'required',
+               'link_code' => 'required'
+           ]);
+        $input = $request->all();
+        $user = VoucherManagement::findorfail($id);
+        $updateNow = $user->update($input);
+
+       //VoucherManagement::update($request->all());
+       Session::flash('flash_message', 'Task successfully Uddated!');
+       return redirect()->back();
     }
 
     /**
@@ -92,6 +105,8 @@ class VoucherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $vocher = VoucherManagement::find($id);
+        $vocher->delete();  
+        return redirect()->back();
     }
 }

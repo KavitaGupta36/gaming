@@ -23,7 +23,6 @@
           		              <h3 class="box-title">General Elements</h3>
           		            </div> -->
           		            <!-- /.box-header -->
-                          {{ $details }}
           		            @if($errors->any())
           		                <div class="alert alert-danger">
           		                    @foreach($errors->all() as $error)
@@ -37,27 +36,28 @@
           		                </div>
           		            @endif
           		            <div class="box-body">
-          		              <form role="form" action="{{ action('VoucherController@update') }}" method="post">
+          		              <form role="form" action="{{ route('voucher.update', $details->id) }} " method="post">
 
           		              {{csrf_field()}}
+                              <input name="_method" type="hidden" value="PATCH">
           		                <div class="form-group">
           		                  <label>Name</label>
-          		                  <input type="text" name="name" class="form-control" placeholder="Enter ...">
+          		                  <input type="text" name="name" class="form-control" placeholder="Enter ..." value="{{ $details->name }}" >
           		                </div>
 
           		                <div class="form-group">
           		                  <label>Description</label>
-          		                  <textarea class="form-control" name="desc" rows="3" placeholder="Enter ..."></textarea>
+          		                  <textarea class="form-control" name="desc" rows="3" placeholder="Enter ..." value="{{ $details->desc }}" >{{ $details->desc }}</textarea>
           		                </div>
 
           		                <div class="form-group">
           		                  <label>Amount</label>
-          		                  <input type="number" name="amount" class="form-control" placeholder="Enter ...">
+          		                  <input type="number" name="amount" class="form-control" placeholder="Enter ..." value="{{ $details->amount }}" >
           		                </div>
 
           		                <div class="form-group">
           		                  <label>Link Code</label>
-          		                  <input type="text" name="link_code" class="form-control" placeholder="Enter ...">
+          		                  <input type="text" name="link_code" class="form-control" placeholder="Enter ..." value="{{ $details->link_code }}" >
           		                </div>
 
           		                <div class="form-group">

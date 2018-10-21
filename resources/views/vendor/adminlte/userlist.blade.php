@@ -12,60 +12,51 @@
 	          <div class="box">
 	            <div class="box-header">
 	              <h3 class="box-title">User List</h3>
-
+	              <a href="{{ route('user_management.create') }}">Add</a>
 	              <div class="box-tools">
 	                <div class="input-group input-group-sm" style="width: 150px;">
-	                  <!-- <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+	                 <!--  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search"> -->
 
 	                  <div class="input-group-btn">
-	                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-	                  </div> -->
+	                    <a href="{{ route('user_management.create') }}">Add</a>
+	                  </div>
 	                </div>
 	              </div>
 	            </div>
-	            <!-- /.box-header -->
 	            <div class="box-body table-responsive no-padding">
-	              <table class="table table-hover">
-	                <tbody><tr>
-	                  <th>ID</th>
-	                  <th>User</th>
-	                  <th>Date</th>
-	                  <th>Status</th>
-	                  <th>Reason</th>
-	                </tr>
-	                <tr>
-	                  <td>183</td>
-	                  <td>John Doe</td>
-	                  <td>11-7-2014</td>
-	                  <td><span class="label label-success">Approved</span></td>
-	                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-	                </tr>
-	                <tr>
-	                  <td>219</td>
-	                  <td>Alexander Pierce</td>
-	                  <td>11-7-2014</td>
-	                  <td><span class="label label-warning">Pending</span></td>
-	                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-	                </tr>
-	                <tr>
-	                  <td>657</td>
-	                  <td>Bob Doe</td>
-	                  <td>11-7-2014</td>
-	                  <td><span class="label label-primary">Approved</span></td>
-	                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-	                </tr>
-	                <tr>
-	                  <td>175</td>
-	                  <td>Mike Doe</td>
-	                  <td>11-7-2014</td>
-	                  <td><span class="label label-danger">Denied</span></td>
-	                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-	                </tr>
-	              </tbody></table>
+	            <table class="table table-hover">
+		            <tbody>
+		                <tr>
+		                  <th>ID</th>
+		                  <th>Level Name</th>
+		                 <!--  <th>Status</th> -->
+		                  <th>Action</th>
+		                </tr>
+		                @if($users)
+		                	@foreach($users as $value)
+		                	<tr>
+			                  <td>{{ $value->id }}</td>
+			                  <td>{{ $value->level_name }}</td>
+			                  <!-- <td><span class="label label-success">Approved</span></td> -->
+			                  <td>
+			                  	<form action="{{ route('user_management.destroy', $value->id) }}" method="post">
+			                  	{{ csrf_field() }}
+			                  	<input name="_method" type="hidden" value="DELETE">
+			                  	<a href="{{ route('user_management.edit', $value->id) }}">
+			                  	<!-- <a href="{{ action('VoucherController@edit', $user->id) }}"> -->
+			                  		<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+			                  	</a>
+			                  		<!-- <i class="fa fa-trash" aria-hidden="true"></i> -->
+			                  		<button type="submit">Delete</button>
+			                  	</form>
+			                  </td>
+		                	</tr>
+		                	@endforeach
+		                @endif
+		              </tbody>
+	              </table>
 	            </div>
-	            <!-- /.box-body -->
 	          </div>
-	          <!-- /.box -->
 	        </div>
 	    </div>
 	</div>

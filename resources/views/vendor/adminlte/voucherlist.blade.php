@@ -12,13 +12,13 @@
 	          <div class="box">
 	            <div class="box-header">
 	              <h3 class="box-title">Voucher List</h3>
-	              <a href="{{ url('voucher/add') }}">Add</a>
+	              <a href="{{ route('voucher.create') }}">Add</a>
 	              <div class="box-tools">
 	                <div class="input-group input-group-sm" style="width: 150px;">
 	                 <!--  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search"> -->
 
 	                  <div class="input-group-btn">
-	                    <a href="{{ url('voucher/add') }}">Add</a>
+	                    <a href="{{ route('voucher.create') }}">Add</a>
 	                  </div>
 	                </div>
 	              </div>
@@ -41,10 +41,16 @@
 		                  <td>{{ $voucher->amount }}</td>
 		                  <!-- <td><span class="label label-success">Approved</span></td> -->
 		                  <td>
-		                  	<a href="{{ url('voucher/edit', $voucher->id) }}">
+		                  	<form action="{{ route('voucher.destroy', $voucher->id) }}" method="post">
+		                  	{{ csrf_field() }}
+		                  	<input name="_method" type="hidden" value="DELETE">
+		                  	<a href="{{ route('voucher.edit', $voucher->id) }}">
+		                  	<!-- <a href="{{ action('VoucherController@edit', $voucher->id) }}"> -->
 		                  		<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 		                  	</a>
-		                  	<i class="fa fa-trash" aria-hidden="true"></i>
+		                  		<!-- <i class="fa fa-trash" aria-hidden="true"></i> -->
+		                  		<button type="submit">Delete</button>
+		                  	</form>
 		                  </td>
 	                	</tr>
 	                	@endforeach

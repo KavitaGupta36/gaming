@@ -50,8 +50,8 @@
       		                </div>
 
       		                <div class="form-group">
-      		                  <label>Voucher Number</label>
-      		                  <input type="number" name="voucher_number" class="form-control" placeholder="Enter ...">
+      		                  <label>Number of User</label>
+      		                  <input type="number" name="no_of_user" class="form-control" placeholder="Enter ...">
       		                </div>
 
       		                  <div class="form-group">

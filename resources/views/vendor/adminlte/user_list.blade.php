@@ -29,7 +29,7 @@
 		                <tr>
 		                  <th>ID</th>
 		                  <th>Level Name</th>
-		                  <th>Voucher Price</th>
+		                  <th>No. of User</th>
 		                  <th>Status</th>
 		                  <th>Action</th>
 		                </tr>
@@ -38,7 +38,7 @@
 		                	<tr>
 			                  <td>{{ $value->id }}</td>
 			                  <td>{{ $value->level_name }}</td>
-			                  <td>{{ $value->voucher_number }}</td>
+			                  <td>{{ $value->no_of_user }}</td>
 			                  <td>{{ $value->status == 1 ? 'Active' : 'Inactive' }}</td>
 			                  <td>
 			                  	<form action="{{ route('user_management.destroy', $value->id) }}" method="post">

@@ -38,7 +38,7 @@
 		                  <td>{{ $voucher->id }}</td>
 		                  <td>{{ $voucher->name }}</td>
 		                  <td>{{ $voucher->amount }}</td>
-		                  <td>{{ $value->status == 1 ? 'Active' : 'Inactive' }}</td>
+		                  <td>{{ $voucher->status == 1 ? 'Active' : 'Inactive' }}</td>
 		                  <td>
 		                  	<form action="{{ route('voucher.destroy', $voucher->id) }}" method="post">
 		                  	{{ csrf_field() }}
@@ -46,7 +46,7 @@
 		                  	<a href="{{ route('voucher.edit', $voucher->id) }}">
 		                  		<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 		                  	</a>
-		                  	<button type="submit">Delete</button>
+		                  	<button type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
 		                  	</form>
 		                  </td>
 	                	</tr>

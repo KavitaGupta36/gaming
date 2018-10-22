@@ -11,8 +11,8 @@
 	        <div class="col-xs-12">
 	          <div class="box">
 	            <div class="box-header">
-	              <h3 class="box-title">User Management Add</h3>
-	              <a href="{{ url('user_management') }}">All User Management</a>
+	              <h3 class="box-title">Game Management Add</h3>
+	              <a href="{{ url('user_management') }}">All Game Management</a>
 	              <div class="box-tools">
 	                <div class="input-group input-group-sm" style="width: 150px;">
 	                </div>
@@ -28,6 +28,11 @@
       		                    @endforeach
       		                </div>
       		            @endif
+                      @if(Session::has('flash_error'))
+                          <div class="alert alert-danger">
+                              {{ Session::get('flash_error') }}
+                          </div>
+                      @endif
       		            @if(Session::has('flash_message'))
       		                <div class="alert alert-success">
       		                    {{ Session::get('flash_message') }}
@@ -39,7 +44,8 @@
       		              {{csrf_field()}}
       		                <div class="form-group">
       		                  <label>Level Name</label>
-                            <select class="form-control m-bot15" name="level_id">
+                            <select class="form-control m-bot15" name="level_id" id="level_id">
+                              <option value="" >Select Option</option>
                                 @if ($levels->count())
                                     @foreach($levels as $level)
                                         <option value="{{ $level->id }}" >{{ $level->level_name }}</option> 
@@ -65,12 +71,12 @@
 
                           <div class="form-group">
                             <label>No. of user</label>
-                            <input type="number" name="no_of_user" class="form-control" placeholder="Enter ...">
+                            <input type="number" name="no_of_user" class="form-control" placeholder="Enter ..." id="no_of_user">
                           </div>
 
                           <div class="form-group">
                             <label>Remaining No. of user point</label>
-                            <input type="number" name="remaining_user" class="form-control" placeholder="Enter ...">
+                            <input type="number" name="remaining_user" class="form-control" placeholder="Enter ..." id="remaining_user" value="">
                           </div>
 
       		                <div class="form-group">

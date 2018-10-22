@@ -47,7 +47,7 @@ class UserManagementController extends Controller
     {
          $this->validate($request, [
             'level_name' => 'required',
-            'voucher_number' => 'required',
+            'no_of_user' => 'required',
         ]);
         $this->user_management->create($request->all());
         Session::flash('flash_message', 'User successfully added!');
@@ -89,7 +89,7 @@ class UserManagementController extends Controller
     {
         $this->validate($request, [
                'level_name' => 'required',
-               'voucher_number' => 'required',
+               'no_of_user' => 'required',
            ]);
         $input = $request->all();
         $user = $this->user_management->findorfail($id);

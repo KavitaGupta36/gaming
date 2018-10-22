@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use Session;
 use App\Level;
 use App\GameManagement;
+use App\UserManagement;
+use App\VoucherManagement;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
     
-    public function __construct(GameManagement $game_management)
-    {
-        $this->game_management = $game_management;
+    public function __construct(GameManagement $game_management, UserManagement $user_management, VoucherManagement $voucher_management){
+
+        $this->game_management      = $game_management;
+        $this->user_management      = $user_management;
+        $this->voucher_management   = $voucher_management;
     }
 
     /**
@@ -45,7 +49,6 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $this->validate($request, [
             'level_id'      => 'required',
             'no_voucher'    => 'required',
@@ -54,6 +57,15 @@ class GameController extends Controller
             'no_of_user'    => 'required',
             'remaining_user'=> 'required'
         ]);
+        $voucher = $this->voucher_management->where('amount',$request->voucher_price)->get();
+        if($voucher->count() == 0){
+            Session::flash('flash_error', "No record found for this Voucher Price");
+            return redirect()->back();
+        }
+        if($voucher->count() < $request->no_voucher){
+            Session::flash('flash_error', "Please select voucher record less than ".$voucher->count()." or equal");
+            return redirect()->back();
+        }
         $this->game_management->create($request->all());
         Session::flash('flash_message', 'Task successfully added!');
         return redirect('/game');
@@ -92,7 +104,6 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
         $this->validate($request, [
             'level_id'      => 'required',
             'no_voucher'    => 'required',
@@ -101,12 +112,22 @@ class GameController extends Controller
             'no_of_user'    => 'required',
             'remaining_user'=> 'required'
         ]);
+        $voucher = $this->voucher_management->where('amount',$request->voucher_price)->get();
+        if($voucher->count() == 0){
+            Session::flash('flash_error', "No record found for this Voucher Price");
+            return redirect()->back();
+        }
+
+        if($voucher->count() < $request->no_voucher){
+            Session::flash('flash_error', "Please select voucher record less than ".$voucher->count()." or equal");
+            return redirect()->back();
+        }
         $input = $request->all();
         $user = $this->game_management->findorfail($id);
         $updateNow = $user->update($input);
 
        Session::flash('flash_message', 'Task successfully Uddated!');
-       return redirect('/game')->back();
+       return redirect('/game');
     }
 
     /**
@@ -120,5 +141,14 @@ class GameController extends Controller
         $vocher = $this->game_management->find($id);
         $vocher->delete();  
         return redirect('/game');
+    }
+
+    public function get_level(Request $request)
+    {
+        $data = $this->user_management->where('level_name', $request->level_id)->get();
+        return response()->json($data);
+        /*if(empty($data)){
+            return response()->json('data','No user for this level');
+        }*/
     }
 }

@@ -10,7 +10,7 @@ class UserManagement extends Model
 {
 	use SoftDeletes;
     
-    public $fillable = ['level_name', 'voucher_number','status'];
+    public $fillable = ['level_name', 'no_of_user','status'];
 
 	/**
      * The attributes that should be mutated to dates.

@@ -14,9 +14,52 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- <script type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+    </script>
+    <script>
+    $( document ).ready(function() {
+        $("#level_id").change(function(e){
+            var level_id = $(this).val();
+            e.preventDefault();
+            $.ajaxSetup({
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+            });
+
+            $.ajax({
+                url:'{{ url('game/getLevel') }}',
+                method:"POST",
+                dataType: 'json',
+                data:{level_id:level_id},
+                success:function(data){
+                   if($.isEmptyObject(data)){
+                        alert("Level have no user");
+                        $("#remaining_user").val("");
+                   }else{
+                        $("#remaining_user").val(data[0].no_of_user);
+                   }
+                }
+            });
+        });
+
+        $("#no_of_user").keyup(function(){
+            var no_of_user = $(this).val();
+            var remaining_user = $("#remaining_user").val();
+            if(remaining_user > no_of_user){
+                $("#remaining_user").val(Number(remaining_user) - Number(no_of_user));
+            }else{
+                alert("please enter less than remaining user.");
+            }
+            /*if(no_of_user != ''){
+                $("#remaining_user").val(Number(remaining_user) - Number(no_of_user));
+            }*/
+        });
+    });
     </script>
 </head>

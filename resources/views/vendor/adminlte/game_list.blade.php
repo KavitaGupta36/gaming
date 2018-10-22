@@ -40,7 +40,7 @@
 		                  	<a href="{{ route('game.edit', $game->id) }}">
 		                  		<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 		                  	</a>
-		                  		<button type="submit">Delete</button>
+		                  		<button type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
 		                  	</form>
 		                  </td>
 	                	</tr>

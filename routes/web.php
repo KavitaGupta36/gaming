@@ -18,5 +18,6 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
        route::resource('/voucher','VoucherController');
        route::resource('/user_management','UserManagementController');
-       Route::resource('/game', 'GameController');
+       route::resource('/game', 'GameController');
+       Route::post('game/getLevel','GameController@get_level');
 });

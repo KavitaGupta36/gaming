@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class VoucherController extends Controller
 {
+
+    public function __construct(VoucherManagement $voucher)
+    {
+        $this->voucher = $voucher;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +21,8 @@ class VoucherController extends Controller
      */
     public function index()
     {
-        $vouchers = VoucherManagement::all();
-        return view('adminlte::voucherlist', compact('vouchers'));
+        $vouchers = $this->voucher->all();
+        return view('adminlte::voucher_list', compact('vouchers'));
     }
 
     /**
@@ -26,7 +32,7 @@ class VoucherController extends Controller
      */
     public function create()
     {
-        return view('adminlte::voucheradd');
+        return view('adminlte::voucher_add');
     }
 
     /**
@@ -43,9 +49,9 @@ class VoucherController extends Controller
             'amount' => 'required',
             'link_code' => 'required'
         ]);
-        VoucherManagement::create($request->all());
+        $this->voucher->create($request->all());
         Session::flash('flash_message', 'Task successfully added!');
-        return redirect()->back();
+        return redirect('/voucher');
     }
 
     /**
@@ -67,9 +73,9 @@ class VoucherController extends Controller
      */
     public function edit($id)
     {
-        $details = VoucherManagement::findOrFail($id);
+        $details = $this->voucher->findOrFail($id);
         //dd($details);
-        return view('adminlte::voucheredit', compact('details'));
+        return view('adminlte::voucher_edit', compact('details'));
     }
 
     /**
@@ -89,12 +95,12 @@ class VoucherController extends Controller
                'link_code' => 'required'
            ]);
         $input = $request->all();
-        $user = VoucherManagement::findorfail($id);
+        $user = $this->voucher->findorfail($id);
         $updateNow = $user->update($input);
 
        //VoucherManagement::update($request->all());
        Session::flash('flash_message', 'Task successfully Uddated!');
-       return redirect()->back();
+       return redirect('/voucher');
     }
 
     /**
@@ -105,8 +111,8 @@ class VoucherController extends Controller
      */
     public function destroy($id)
     {
-        $vocher = VoucherManagement::find($id);
+        $vocher = $this->voucher->find($id);
         $vocher->delete();  
-        return redirect()->back();
+        return redirect('/voucher');
     }
 }

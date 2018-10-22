@@ -37,31 +37,52 @@
                         <form role="form" action="{{ route('user_management.update', $details->id) }}" method="post">
                         {{csrf_field()}}
                         <input name="_method" type="hidden" value="PATCH">
+                        
                           <div class="form-group">
                             <label>Level Name</label>
                             <select class="form-control m-bot15" name="level_name">
                                 @if ($levels->count())
                                     @foreach($levels as $level)
-                                        <option value="{{ $level->id }}" {{ $details->level_name == $level->id ? 'selected="selected"' : '' }} >{{ $level->level_name }}</option> 
+                                        <option value="{{ $level->id }}" {{ $details->level_id == $level->id ? 'selected="selected"' : '' }}>{{ $level->level_name }}</option> 
                                     @endforeach   
                                 @endif
                             </select>
                           </div>
 
                           <div class="form-group">
-                            <label>Voucher Number</label>
-                            <input type="number" name="voucher_number" value = "{{ $details->voucher_number }}" class="form-control" placeholder="Enter ...">
+                            <label>Number of Voucher</label>
+                            <input type="number" name="no_voucher" class="form-control" placeholder="Enter ..." value="{{ $details->no_voucher }}">
                           </div>
 
-                         <div class="form-group">
-                             <label>Status</label>
-                             <select class="form-control" name="status">
-                               <option value="1" {{ $details->status == 1 ? 'selected="selected"' : '' }}>Active</option>
-                               <option value="0" {{ $details->status == 0 ? 'selected="selected"' : '' }}>Inactive</option>
-                             </select>
-                           </div>
+                          <div class="form-group">
+                            <label>Voucher Price</label>
+                            <input type="number" name="voucher_price" class="form-control" placeholder="Enter ..." value="{{ $details->voucher_price }}">
+                          </div>
 
-                            <button class="btn btn-primary">Submit</button>
+                          <div class="form-group">
+                            <label>No. of user point</label>
+                            <input type="number" name="no_user_point" class="form-control" placeholder="Enter ..." value="{{ $details->no_user_point }}">
+                          </div>
+
+                          <div class="form-group">
+                            <label>No. of user</label>
+                            <input type="number" name="no_of_user" class="form-control" placeholder="Enter ..." value="{{ $details->no_of_user }}">
+                          </div>
+
+                          <div class="form-group">
+                            <label>Remaining No. of user point</label>
+                            <input type="number" name="remaining_user" class="form-control" placeholder="Enter ..." value="{{ $details->remaining_user }}">
+                          </div>
+
+                          <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control" name="status">
+                              <option value="1" {{ $details->status == 1 ? 'selected="selected"' : '' }} >Active</option>
+                              <option value="0" {{ $details->status == 0 ? 'selected="selected"' : '' }}>Inactive</option>
+                            </select>
+                          </div>
+
+                        <button class="btn btn-primary">Submit</button>
                         </form>
                       </div>
                     </div>

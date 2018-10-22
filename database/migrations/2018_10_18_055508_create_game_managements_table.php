@@ -21,6 +21,7 @@ class CreateGameManagementsTable extends Migration
             $table->integer('no_user_point');
             $table->integer('no_of_user');
             $table->integer('remaining_user');
+            $table->enum('status', ['0', '1']);
             $table->softDeletes();
             $table->timestamps();
         });

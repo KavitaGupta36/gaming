@@ -35,7 +35,7 @@
             <!-- Optionally, you can add icons to the links -->
             <!-- <li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.home') }}</span></a></li> -->
 
-            <li><a href="{{ url('user') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.userlink') }}</span></a></li>
+            <li><a href="{{ url('user_management') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.userlink') }}</span></a></li>
 
             <li><a href="{{ url('voucher') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.voucherlink') }}</span></a></li>
 

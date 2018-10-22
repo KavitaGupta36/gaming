@@ -15,8 +15,7 @@
 	              <a href="{{ route('voucher.create') }}">Add</a>
 	              <div class="box-tools">
 	                <div class="input-group input-group-sm" style="width: 150px;">
-	                 <!--  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search"> -->
-
+	                 
 	                  <div class="input-group-btn">
 	                    <a href="{{ route('voucher.create') }}">Add</a>
 	                  </div>
@@ -29,7 +28,7 @@
 	                  <th>ID</th>
 	                  <th>Voucher Name</th>
 	                  <th>Amount</th>
-	                 <!--  <th>Status</th> -->
+	                  <th>Status</th>
 	                  <th>Action</th>
 	                </tr>
 
@@ -39,17 +38,15 @@
 		                  <td>{{ $voucher->id }}</td>
 		                  <td>{{ $voucher->name }}</td>
 		                  <td>{{ $voucher->amount }}</td>
-		                  <!-- <td><span class="label label-success">Approved</span></td> -->
+		                  <td>{{ $value->status == 1 ? 'Active' : 'Inactive' }}</td>
 		                  <td>
 		                  	<form action="{{ route('voucher.destroy', $voucher->id) }}" method="post">
 		                  	{{ csrf_field() }}
 		                  	<input name="_method" type="hidden" value="DELETE">
 		                  	<a href="{{ route('voucher.edit', $voucher->id) }}">
-		                  	<!-- <a href="{{ action('VoucherController@edit', $voucher->id) }}"> -->
 		                  		<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 		                  	</a>
-		                  		<!-- <i class="fa fa-trash" aria-hidden="true"></i> -->
-		                  		<button type="submit">Delete</button>
+		                  	<button type="submit">Delete</button>
 		                  	</form>
 		                  </td>
 	                	</tr>

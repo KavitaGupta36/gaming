@@ -29,7 +29,8 @@
 		                <tr>
 		                  <th>ID</th>
 		                  <th>Level Name</th>
-		                 <!--  <th>Status</th> -->
+		                  <th>Voucher Price</th>
+		                  <th>Status</th>
 		                  <th>Action</th>
 		                </tr>
 		                @if($users)
@@ -37,17 +38,16 @@
 		                	<tr>
 			                  <td>{{ $value->id }}</td>
 			                  <td>{{ $value->level_name }}</td>
-			                  <!-- <td><span class="label label-success">Approved</span></td> -->
+			                  <td>{{ $value->voucher_number }}</td>
+			                  <td>{{ $value->status == 1 ? 'Active' : 'Inactive' }}</td>
 			                  <td>
 			                  	<form action="{{ route('user_management.destroy', $value->id) }}" method="post">
 			                  	{{ csrf_field() }}
 			                  	<input name="_method" type="hidden" value="DELETE">
 			                  	<a href="{{ route('user_management.edit', $value->id) }}">
-			                  	<!-- <a href="{{ action('VoucherController@edit', $user->id) }}"> -->
 			                  		<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 			                  	</a>
-			                  		<!-- <i class="fa fa-trash" aria-hidden="true"></i> -->
-			                  		<button type="submit">Delete</button>
+			                  		<button type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
 			                  	</form>
 			                  </td>
 		                	</tr>

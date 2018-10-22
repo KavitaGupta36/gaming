@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use App\Level;
+use App\GameManagement;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
+    
+    public function __construct(GameManagement $game_management)
+    {
+        $this->game_management = $game_management;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +22,8 @@ class GameController extends Controller
      */
     public function index()
     {
-        return view('adminlte::gamelist');
+        $games  = $this->game_management->all();
+        return view('adminlte::game_list', compact('games'));
     }
 
     /**
@@ -23,7 +33,8 @@ class GameController extends Controller
      */
     public function create()
     {
-        //
+        $levels = Level::all();
+        return view('adminlte::game_add', compact('levels'));
     }
 
     /**
@@ -34,7 +45,18 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $this->validate($request, [
+            'level_id'      => 'required',
+            'no_voucher'    => 'required',
+            'voucher_price' => 'required',
+            'no_user_point' => 'required',
+            'no_of_user'    => 'required',
+            'remaining_user'=> 'required'
+        ]);
+        $this->game_management->create($request->all());
+        Session::flash('flash_message', 'Task successfully added!');
+        return redirect('/game');
     }
 
     /**
@@ -56,7 +78,9 @@ class GameController extends Controller
      */
     public function edit($id)
     {
-        //
+        $levels = Level::all();
+        $details = $this->game_management->findOrFail($id);
+        return view('adminlte::game_edit', compact('levels','details'));
     }
 
     /**
@@ -68,7 +92,21 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
+        $this->validate($request, [
+            'level_id'      => 'required',
+            'no_voucher'    => 'required',
+            'voucher_price' => 'required',
+            'no_user_point' => 'required',
+            'no_of_user'    => 'required',
+            'remaining_user'=> 'required'
+        ]);
+        $input = $request->all();
+        $user = $this->game_management->findorfail($id);
+        $updateNow = $user->update($input);
+
+       Session::flash('flash_message', 'Task successfully Uddated!');
+       return redirect('/game')->back();
     }
 
     /**
@@ -79,6 +117,8 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $vocher = $this->game_management->find($id);
+        $vocher->delete();  
+        return redirect('/game');
     }
 }

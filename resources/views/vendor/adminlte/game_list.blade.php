@@ -29,7 +29,7 @@
 	                	@foreach($games as $game)
 	                	<tr>
 		                  <td>{{ $game->id }}</td>
-		                  <td>{{ $game->level_id }}</td>
+		                  <td>{{ $game->levelName->level_name }}</td>
 		                  <td>{{ $game->no_voucher }}</td>
 		                  <td>{{ $game->voucher_price }}</td>
 		                  <td>{{ $game->status == 1 ? 'Active' : 'Inactive' }}</td>
@@ -48,9 +48,7 @@
 	                @endif
 	              </tbody></table>
 	            </div>
-	            <!-- /.box-body -->
 	          </div>
-	          <!-- /.box -->
 	        </div>
 	    </div>
 	</div>

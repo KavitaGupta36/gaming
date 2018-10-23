@@ -21,45 +21,88 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+    <!-- <script type="text/javascript" src="{{ url('/js/custom.js') }}"></script> -->
     <script>
-    $( document ).ready(function() {
-        $("#level_id").change(function(e){
-            var level_id = $(this).val();
-            e.preventDefault();
-            $.ajaxSetup({
-              headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-            });
-
-            $.ajax({
-                url:'{{ url('game/getLevel') }}',
-                method:"POST",
-                dataType: 'json',
-                data:{level_id:level_id},
-                success:function(data){
-                   if($.isEmptyObject(data)){
-                        alert("Level have no user");
-                        $("#remaining_user").val("");
-                   }else{
-                        $("#remaining_user").val(data[0].no_of_user);
-                   }
+        $( document ).ready(function() {
+            $("#level_id").change(function(e){
+                var level_id = $(this).val();
+                e.preventDefault();
+                $.ajaxSetup({
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                });
+                $.ajax({
+                    url:'{{ url('game/checkLevelExit') }}',
+                    method:"POST",
+                    dataType: 'json',
+                    data:{level_id:level_id},
+                    success:function(data){
+                       if(data == 1){
+                            alert("Record already exist for This Level");
+                            $("#level_id option[value='']").attr('selected', true)
+                            return;
+                        }
+                        done();
+                    }
+                });
+                function done(){
+                    $.ajax({
+                        url:'{{ url('game/getLevel') }}',
+                        method:"POST",
+                        dataType: 'json',
+                        data:{level_id:level_id},
+                        success:function(data){
+                           if($.isEmptyObject(data)){
+                                alert("Level have no user");
+                                $("#remaining_user").val("");
+                                $("#default_value").val("");
+                           }else{
+                                $("#remaining_user").val(data[0].no_of_user);
+                                $("#default_value").val(data[0].no_of_user);
+                           }
+                        }
+                    });
                 }
             });
-        });
 
-        $("#no_of_user").keyup(function(){
-            var no_of_user = $(this).val();
-            var remaining_user = $("#remaining_user").val();
-            if(remaining_user > no_of_user){
-                $("#remaining_user").val(Number(remaining_user) - Number(no_of_user));
-            }else{
-                alert("please enter less than remaining user.");
-            }
-            /*if(no_of_user != ''){
-                $("#remaining_user").val(Number(remaining_user) - Number(no_of_user));
-            }*/
+            $("#no_of_user").keyup(function(){
+                var no_of_user = $(this).val();
+                var default_hidden_value = $("#default_value").val();
+                if(Number(default_hidden_value) > Number(no_of_user)){
+                    $("#remaining_user").val(Number(default_hidden_value) - Number(no_of_user));
+                }else{
+                    alert("please enter less than remaining user.");
+                    $(this).val('');
+                    $("#remaining_user").val(Number(default_hidden_value));
+                }
+                if(no_of_user == ''){
+                    $("#remaining_user").val(Number(default_hidden_value));
+                }
+            });
+
+            $("#level_name").change(function(e){
+                var level_id = $(this).val();
+                e.preventDefault();
+                $.ajaxSetup({
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                });
+                $.ajax({
+                    url:'{{ url('user_management/CheckLevel') }}',
+                    method:"POST",
+                    dataType: 'json',
+                    data:{level_id:level_id},
+                    success:function(data){
+                       if(data == 1){
+                            alert("Record already exist for This Level");
+                            $("#level_name option[value='']").attr('selected', true)
+                            return;
+                        }
+                    }
+                });
+            })
         });
-    });
     </script>
 </head>

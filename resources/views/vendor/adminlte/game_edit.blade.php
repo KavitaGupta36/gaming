@@ -42,10 +42,12 @@
                         <form role="form" action="{{ route('game.update', $details->id) }}" method="post">
                         {{csrf_field()}}
                         <input name="_method" type="hidden" value="PATCH">
-                        
+                        <input type="hidden" name="check_url" id="check_url" value="{{ url('game/checkLevelExit') }}">
+                        <input type="hidden" name="level_url" id="level_url" value="{{ url('game/getLevel') }}">
                           <div class="form-group">
                             <label>Level Name</label>
                             <select class="form-control m-bot15" name="level_id" id="level_id">
+                              <option value="" >Select Option</option>
                                 @if ($levels->count())
                                     @foreach($levels as $level)
                                         <option value="{{ $level->id }}" {{ $details->level_id == $level->id ? 'selected="selected"' : '' }}>{{ $level->level_name }}</option> 

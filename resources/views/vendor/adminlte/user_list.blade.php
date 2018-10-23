@@ -37,7 +37,7 @@
 		                	@foreach($users as $value)
 		                	<tr>
 			                  <td>{{ $value->id }}</td>
-			                  <td>{{ $value->level_name }}</td>
+			                  <td>{{ $value->levelName->level_name }}</td>
 			                  <td>{{ $value->no_of_user }}</td>
 			                  <td>{{ $value->status == 1 ? 'Active' : 'Inactive' }}</td>
 			                  <td>

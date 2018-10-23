@@ -42,6 +42,10 @@
       		              <form role="form" action="{{ route('game.store') }}" method="post">
 
       		              {{csrf_field()}}
+                        
+                        <input type="hidden" name="check_url" id="check_url" value="{{ url('game/checkLevelExit') }}">
+                        <input type="hidden" name="level_url" id="level_url" value="{{ url('game/getLevel') }}">
+
       		                <div class="form-group">
       		                  <label>Level Name</label>
                             <select class="form-control m-bot15" name="level_id" id="level_id">
@@ -76,6 +80,7 @@
 
                           <div class="form-group">
                             <label>Remaining No. of user point</label>
+                            <input type="hidden" name="default_value" value="", id="default_value">
                             <input type="number" name="remaining_user" class="form-control" placeholder="Enter ..." id="remaining_user" value="">
                           </div>
 

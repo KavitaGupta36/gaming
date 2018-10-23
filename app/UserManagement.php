@@ -19,8 +19,8 @@ class UserManagement extends Model
      */
     protected $dates = ['deleted_at'];
 
-    public function LevelName()
+    public function levelName()
     {
-    	return $this->belongsTo('App\Level');
+    	return $this->belongsTo('App\Level','level_name','id');
     }
 }

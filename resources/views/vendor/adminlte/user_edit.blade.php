@@ -39,7 +39,8 @@
                         <input name="_method" type="hidden" value="PATCH">
                           <div class="form-group">
                             <label>Level Name</label>
-                            <select class="form-control m-bot15" name="level_name">
+                            <select class="form-control m-bot15" name="level_name" id="level_name">
+                             <option value="" >Select Option</option>
                                 @if ($levels->count())
                                     @foreach($levels as $level)
                                         <option value="{{ $level->id }}" {{ $details->level_name == $level->id ? 'selected="selected"' : '' }} >{{ $level->level_name }}</option> 

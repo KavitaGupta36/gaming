@@ -22,7 +22,7 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        $users = $this->user_management->all();
+        $users = $this->user_management->with('levelName')->get();
         return view('adminlte::user_list', compact('users'));
     }
 
@@ -110,5 +110,11 @@ class UserManagementController extends Controller
         $user = $this->user_management->find($id);
         $user->delete();  
         return redirect('/user_management');
+    }
+
+    public function check_level(Request $request)
+    {
+        $data = $this->user_management->where('level_name', $request->level_id)->get()->count();
+        return response()->json($data);
     }
 }

@@ -15,7 +15,9 @@ class CreateGameManagementsTable extends Migration
     {
         Schema::create('game_managements', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('level_id');
+            $table->integer('level_id')->unsigned();
+            $table->foreign('level_id')
+                ->references('level_name')->on('user_managements')->onDelete('cascade');
             $table->integer('no_voucher');
             $table->integer('voucher_price');
             $table->integer('no_user_point');

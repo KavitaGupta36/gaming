@@ -21,18 +21,9 @@
               <div class="box-body table-responsive no-padding">
                 <div class="col-md-12">
                     <div class="box box-warning">
-                      @if($errors->any())
-                          <div class="alert alert-danger">
-                              @foreach($errors->all() as $error)
-                                  <p>{{ $error }}</p>
-                              @endforeach
-                          </div>
-                      @endif
-                      @if(Session::has('flash_message'))
-                          <div class="alert alert-success">
-                              {{ Session::get('flash_message') }}
-                          </div>
-                      @endif
+                      
+                      @include('adminlte::layouts.partials.alertmessage')
+
                       <div class="box-body">
                         <form role="form" action="{{ route('user_management.update', $details->id) }}" method="post">
                         {{csrf_field()}}
@@ -53,7 +44,6 @@
                             <label>Number of User</label>
                             <input type="number" name="no_of_user" value = "{{ $details->no_of_user }}" class="form-control" placeholder="Enter ...">
                           </div>
-
                          <div class="form-group">
                              <label>Status</label>
                              <select class="form-control" name="status">
@@ -61,7 +51,6 @@
                                <option value="0" {{ $details->status == 0 ? 'selected="selected"' : '' }}>Inactive</option>
                              </select>
                            </div>
-
                             <button class="btn btn-primary">Submit</button>
                         </form>
                       </div>
@@ -72,4 +61,30 @@
           </div>
       </div>
   </div>
+<script>
+  $(document).ready(function(){
+      $("#level_name").change(function(e){
+          var level_id = $(this).val();
+          e.preventDefault();
+          $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+          $.ajax({
+              url:'{{ url('user_management/CheckLevel') }}',
+              method:"POST",
+              dataType: 'json',
+              data:{level_id:level_id},
+              success:function(data){
+                 if(data == 1){
+                      alert("Record already exist for This Level");
+                      $("#level_name option[value='']").attr('selected', true)
+                      return;
+                  }
+              }
+          });
+      })
+  });
+</script>
 @endsection

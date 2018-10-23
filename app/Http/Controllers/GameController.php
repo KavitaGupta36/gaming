@@ -49,22 +49,27 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'level_id'      => 'required',
-            'no_voucher'    => 'required',
-            'voucher_price' => 'required',
-            'no_user_point' => 'required',
-            'no_of_user'    => 'required',
-            'remaining_user'=> 'required'
-        ]);
+        try {
+            $this->validate($request, [
+                'level_id'      => 'required',
+                'no_voucher'    => 'required',
+                'voucher_price' => 'required',
+                'no_user_point' => 'required',
+                'no_of_user'    => 'required',
+                'remaining_user'=> 'required'
+            ]);
 
-        if($request->voucher_price){
-            $this->CheckVoucher($request->voucher_price, $request->no_voucher);
+            if($request->voucher_price){
+                $this->CheckVoucher($request->voucher_price, $request->no_voucher);
+            }
+
+            $this->game_management->create($request->all());
+            Session::flash('flash_message', 'Game successfully added!');
+            return redirect('/game');
+        } catch (Exception $e) {
+            dd($e);
         }
-
-        $this->game_management->create($request->all());
-        Session::flash('flash_message', 'Task successfully added!');
-        return redirect('/game');
+        
     }
 
     /**
@@ -86,9 +91,13 @@ class GameController extends Controller
      */
     public function edit($id)
     {
-        $levels = Level::all();
-        $details = $this->game_management->findOrFail($id);
-        return view('adminlte::game_edit', compact('levels','details'));
+        try {
+            $levels = Level::all();
+            $details = $this->game_management->findOrFail($id);
+            return view('adminlte::game_edit', compact('levels','details'));
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -100,23 +109,26 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'level_id'      => 'required',
-            'no_voucher'    => 'required',
-            'voucher_price' => 'required',
-            'no_user_point' => 'required',
-            'no_of_user'    => 'required',
-            'remaining_user'=> 'required'
-        ]);
-        if($request->voucher_price){
-            $this->CheckVoucher($request->voucher_price, $request->no_voucher);
-        }
-        $input = $request->all();
-        $user = $this->game_management->findorfail($id);
-        $updateNow = $user->update($input);
+        try {
+            $this->validate($request, [
+                'level_id'      => 'required',
+                'no_voucher'    => 'required',
+                'voucher_price' => 'required',
+                'no_user_point' => 'required',
+                'no_of_user'    => 'required',
+                'remaining_user'=> 'required'
+            ]);
+            if($request->voucher_price){
+                $this->CheckVoucher($request->voucher_price, $request->no_voucher);
+            }
+            $user = $this->game_management->findorfail($id);
+            $updateNow = $user->update($request->all());
 
-       Session::flash('flash_message', 'Task successfully Uddated!');
-       return redirect('/game');
+           Session::flash('flash_message', 'Game successfully Updated!');
+           return redirect('/game');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -127,17 +139,33 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        $vocher = $this->game_management->find($id);
-        $vocher->delete();  
-        return redirect('/game');
+        try {
+            $vocher = $this->game_management->find($id);
+            $vocher->delete();  
+            return redirect('/game');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
+    /**
+     * check level for user management.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function get_level(Request $request)
     {
         $data = $this->user_management->where('level_name', $request->level_id)->get();
         return response()->json($data);
     }
 
+    /**
+     * check level, for user management that is created or not
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function check_level_exit(Request $request)
     {
         $data = $this->game_management->where('level_id', $request->level_id)->get()->count();

@@ -22,8 +22,12 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        $users = $this->user_management->with('levelName')->get();
-        return view('adminlte::user_list', compact('users'));
+        try {
+            $users = $this->user_management->with('levelName')->get();
+            return view('adminlte::user_list', compact('users'));
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -33,8 +37,12 @@ class UserManagementController extends Controller
      */
     public function create()
     {
-        $levels = Level::all();
-        return view('adminlte::user_add', compact('levels'));
+        try {
+            $levels = Level::all();
+            return view('adminlte::user_add', compact('levels'));
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -45,13 +53,17 @@ class UserManagementController extends Controller
      */
     public function store(Request $request)
     {
-         $this->validate($request, [
-            'level_name' => 'required',
-            'no_of_user' => 'required',
-        ]);
-        $this->user_management->create($request->all());
-        Session::flash('flash_message', 'User successfully added!');
-        return redirect('/user_management');
+        try {
+            $this->validate($request, [
+                'level_name' => 'required',
+                'no_of_user' => 'required',
+            ]);
+            $this->user_management->create($request->all());
+            Session::flash('flash_message', 'User successfully added!');
+            return redirect('/user_management');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -73,9 +85,13 @@ class UserManagementController extends Controller
      */
     public function edit($id)
     {
-        $levels = Level::all();
-        $details = $this->user_management->findOrFail($id);
-        return view('adminlte::user_edit', compact('levels', 'details'));
+        try {
+            $levels = Level::all();
+            $details = $this->user_management->findOrFail($id);
+            return view('adminlte::user_edit', compact('levels', 'details'));
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -87,16 +103,19 @@ class UserManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-               'level_name' => 'required',
-               'no_of_user' => 'required',
-           ]);
-        $input = $request->all();
-        $user = $this->user_management->findorfail($id);
-        $updateNow = $user->update($input);
+        try {
+            $this->validate($request, [
+                   'level_name' => 'required',
+                   'no_of_user' => 'required',
+               ]);
+            $user = $this->user_management->findorfail($id);
+            $updateNow = $user->update($request->all());
 
-       Session::flash('flash_message', 'Task successfully Uddated!');
-       return redirect('/user_management');
+           Session::flash('flash_message', 'User successfully Updated!');
+           return redirect('/user_management');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -107,11 +126,21 @@ class UserManagementController extends Controller
      */
     public function destroy($id)
     {
-        $user = $this->user_management->find($id);
-        $user->delete();  
-        return redirect('/user_management');
+        try {
+            $user = $this->user_management->find($id);
+            $user->delete();  
+            return redirect('/user_management');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
+    /**
+     * Check level that record are inserted.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function check_level(Request $request)
     {
         $data = $this->user_management->where('level_name', $request->level_id)->get()->count();

@@ -11,7 +11,7 @@
 	        <div class="col-xs-12">
 	          <div class="box">
 	            <div class="box-header">
-	              <h3 class="box-title">User List</h3>
+	              <h3 class="box-title">User Management List</h3>
 	              <a href="{{ route('user_management.create') }}">Add</a>
 	              <div class="box-tools">
 	                <div class="input-group input-group-sm" style="width: 150px;">

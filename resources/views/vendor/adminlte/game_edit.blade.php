@@ -4,7 +4,6 @@
   {{ trans('adminlte_lang::message.home') }}
 @endsection
 
-
 @section('main-content')
   <div class="container-fluid spark-screen">
     <div class="row">
@@ -12,7 +11,7 @@
             <div class="box">
               <div class="box-header">
                 <h3 class="box-title">Game Management Edit</h3>
-                <a href="{{ url('user_management') }}">All Game Management</a>
+                <a href="{{ url('game') }}">All Game Management</a>
                 <div class="box-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
                   </div>
@@ -21,23 +20,9 @@
               <div class="box-body table-responsive no-padding">
                 <div class="col-md-12">
                     <div class="box box-warning">
-                      @if($errors->any())
-                          <div class="alert alert-danger">
-                              @foreach($errors->all() as $error)
-                                  <p>{{ $error }}</p>
-                              @endforeach
-                          </div>
-                      @endif
-                      @if(Session::has('flash_error'))
-                          <div class="alert alert-danger">
-                              {{ Session::get('flash_error') }}
-                          </div>
-                      @endif
-                      @if(Session::has('flash_message'))
-                          <div class="alert alert-success">
-                              {{ Session::get('flash_message') }}
-                          </div>
-                      @endif
+                      
+                      @include('adminlte::layouts.partials.alertmessage')
+
                       <div class="box-body">
                         <form role="form" action="{{ route('game.update', $details->id) }}" method="post">
                         {{csrf_field()}}
@@ -78,6 +63,11 @@
 
                           <div class="form-group">
                             <label>Remaining No. of user point</label>
+
+                            <input type="hidden" name="default_value" value="", id="default_value">
+
+                            <input type="hidden" name="remaining_no_user" id="remaining_no_user" value="">
+
                             <input type="number" name="remaining_user" class="form-control" placeholder="Enter ..." value="{{ $details->remaining_user }}" id="remaining_user">
                           </div>
 
@@ -99,4 +89,66 @@
           </div>
       </div>
   </div>
+<script type="text/javascript">
+    $( document ).ready(function() {
+          $("#level_id").change(function(e){
+              var level_id = $(this).val();
+              e.preventDefault();
+              $.ajaxSetup({
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+              });
+              $.ajax({
+                  url:'{{ url('game/checkLevelExit') }}',
+                  method:"POST",
+                  dataType: 'json',
+                  data:{level_id:level_id},
+                  success:function(data){
+                     if(data == 1){
+                          alert("Record already exist for This Level");
+                          $("#level_id option[value='']").attr('selected', true)
+                          return;
+                      }
+                      done();
+                  }
+              });
+              function done(){
+                  $.ajax({
+                      url:'{{ url('game/getLevel') }}',
+                      method:"POST",
+                      dataType: 'json',
+                      data:{level_id:level_id},
+                      success:function(data){
+                         if($.isEmptyObject(data)){
+                              alert("Level have no user");
+                              $("#remaining_no_user").val("");
+                              $("#default_value").val("");
+                         }else{
+                              $("#remaining_no_user").val(data[0].no_of_user);
+                              $("#default_value").val(data[0].no_of_user);
+                         }
+                      }
+                  });
+              }
+          });
+
+          $("#no_of_user").keyup(function(){
+              var no_of_user = $(this).val();
+              var default_hidden_value = $("#default_value").val();
+              if(Number(default_hidden_value) > Number(no_of_user)){
+                  $("#remaining_no_user").val(Number(default_hidden_value) - Number(no_of_user));
+              }else{
+                  alert("please enter less than remaining user.");
+                  $(this).val('');
+                  $("#remaining_no_user").val(Number(default_hidden_value));
+              }
+              if(no_of_user == ''){
+                  $("#remaining_no_user").val(Number(default_hidden_value));
+              }
+          });
+
+          
+      });
+</script>
 @endsection

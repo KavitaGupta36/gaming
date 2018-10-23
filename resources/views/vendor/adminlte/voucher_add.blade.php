@@ -4,15 +4,14 @@
 	{{ trans('adminlte_lang::message.home') }}
 @endsection
 
-
 @section('main-content')
 	<div class="container-fluid spark-screen">
 		<div class="row">
 	        <div class="col-xs-12">
 	          <div class="box">
 	            <div class="box-header">
-	              <h3 class="box-title">User Add</h3>
-	              <a href="{{ url('user') }}">All Voucher</a>
+	              <h3 class="box-title">Voucher Add</h3>
+	              <a href="{{ url('voucher') }}">All Voucher</a>
 	              <div class="box-tools">
 	                <div class="input-group input-group-sm" style="width: 150px;">
 	                </div>
@@ -21,18 +20,9 @@
 	            <div class="box-body table-responsive no-padding">
 	              <div class="col-md-12">
 	              		<div class="box box-warning">
-      		            @if($errors->any())
-      		                <div class="alert alert-danger">
-      		                    @foreach($errors->all() as $error)
-      		                        <p>{{ $error }}</p>
-      		                    @endforeach
-      		                </div>
-      		            @endif
-      		            @if(Session::has('flash_message'))
-      		                <div class="alert alert-success">
-      		                    {{ Session::get('flash_message') }}
-      		                </div>
-      		            @endif
+      		            
+                      @include('adminlte::layouts.partials.alertmessage')
+
       		            <div class="box-body">
       		              <form role="form" action="{{ route('voucher.store') }}" method="post">
 
@@ -68,7 +58,6 @@
                             <button class="btn btn-primary">Submit</button>
       		              </form>
       		            </div>
-          		            <!-- /.box-body -->
           		      </div>
 	              </div>
 	            </div>
@@ -76,4 +65,5 @@
 	        </div>
 	    </div>
 	</div>
+
 @endsection

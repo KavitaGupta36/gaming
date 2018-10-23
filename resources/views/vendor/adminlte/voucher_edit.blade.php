@@ -19,18 +19,9 @@
 	            <div class="box-body table-responsive no-padding">
 	              <div class="col-md-12">
 	              	<div class="box box-warning">
-      		            @if($errors->any())
-      		                <div class="alert alert-danger">
-      		                    @foreach($errors->all() as $error)
-      		                        <p>{{ $error }}</p>
-      		                    @endforeach
-      		                </div>
-      		            @endif
-      		            @if(Session::has('flash_message'))
-      		                <div class="alert alert-success">
-      		                    {{ Session::get('flash_message') }}
-      		                </div>
-      		            @endif
+      		            
+                      @include('adminlte::layouts.partials.alertmessage')
+
       		            <div class="box-body">
       		              <form role="form" action="{{ route('voucher.update', $details->id) }} " method="post">
 

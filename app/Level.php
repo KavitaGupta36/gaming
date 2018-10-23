@@ -14,7 +14,7 @@ class Level extends Model
         'created_at', 'updated_at',
     ];*/
 
-    public function UserManage()
+    /*public function UserManage()
     {
     	return $this->hasOne('App\UserManagement');
     }
@@ -22,5 +22,5 @@ class Level extends Model
     public function GameManage()
     {
     	return $this->hasOne('App\GameManagement');
-    }
+    }*/
 }

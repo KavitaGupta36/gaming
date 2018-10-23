@@ -21,8 +21,12 @@ class VoucherController extends Controller
      */
     public function index()
     {
-        $vouchers = $this->voucher->all();
-        return view('adminlte::voucher_list', compact('vouchers'));
+        try {
+            $vouchers = $this->voucher->all();
+            return view('adminlte::voucher_list', compact('vouchers'));
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -43,15 +47,19 @@ class VoucherController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'desc' => 'required',
-            'amount' => 'required',
-            'link_code' => 'required'
-        ]);
-        $this->voucher->create($request->all());
-        Session::flash('flash_message', 'Task successfully added!');
-        return redirect('/voucher');
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'desc' => 'required',
+                'amount' => 'required|min:1',
+                'link_code' => 'required'
+            ]);
+            $this->voucher->create($request->all());
+            Session::flash('flash_message', 'Voucher successfully added!');
+            return redirect('/voucher');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -73,9 +81,12 @@ class VoucherController extends Controller
      */
     public function edit($id)
     {
-        $details = $this->voucher->findOrFail($id);
-        //dd($details);
-        return view('adminlte::voucher_edit', compact('details'));
+        try {
+            $details = $this->voucher->findOrFail($id);
+            return view('adminlte::voucher_edit', compact('details'));
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -87,20 +98,21 @@ class VoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request->all());
-        $this->validate($request, [
-               'name' => 'required',
-               'desc' => 'required',
-               'amount' => 'required',
-               'link_code' => 'required'
-           ]);
-        $input = $request->all();
-        $user = $this->voucher->findorfail($id);
-        $updateNow = $user->update($input);
+        try {
+            $this->validate($request, [
+                   'name' => 'required',
+                   'desc' => 'required',
+                   'amount' => 'required',
+                   'link_code' => 'required'
+               ]);
+            $user = $this->voucher->findorfail($id);
+            $updateNow = $user->update($request->all());
 
-       //VoucherManagement::update($request->all());
-       Session::flash('flash_message', 'Task successfully Uddated!');
-       return redirect('/voucher');
+           Session::flash('flash_message', 'Voucher successfully Updated!');
+           return redirect('/voucher');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -111,8 +123,12 @@ class VoucherController extends Controller
      */
     public function destroy($id)
     {
-        $vocher = $this->voucher->find($id);
-        $vocher->delete();  
-        return redirect('/voucher');
+        try {
+            $vocher = $this->voucher->find($id);
+            $vocher->delete();  
+            return redirect('/voucher');
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 }

@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Session;
 use App\Level;
 use App\UserManagement;
+use App\GameManagement;
 use Illuminate\Http\Request;
 
 class UserManagementController extends Controller
 {
     
-    public function __construct(UserManagement $user_management)
+    public function __construct(UserManagement $user_management, GameManagement $game_management)
     {
         $this->user_management = $user_management;
+        $this->game_management = $game_management;
     }
 
     /**
@@ -128,6 +130,8 @@ class UserManagementController extends Controller
     {
         try {
             $user = $this->user_management->find($id);
+            //dd($user->game());
+            $user->game()->delete();
             $user->delete();  
             return redirect('/user_management');
         } catch (Exception $e) {

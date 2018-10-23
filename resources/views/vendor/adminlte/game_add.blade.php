@@ -70,6 +70,8 @@
 
                             <input type="hidden" name="remaining_no_user" id="remaining_no_user" value="">
 
+                            <input type="hidden" name="user_management_id" id="user_management_id" value="">
+
                             <input type="number" name="remaining_user" class="form-control" placeholder="Enter ..." id="remaining_user" value="">
                           </div>
 
@@ -125,9 +127,11 @@
                         success:function(data){
                            if($.isEmptyObject(data)){
                                 alert("Level have no user");
+                                $("#user_management_id").val("");
                                 $("#remaining_no_user").val("");
                                 $("#default_value").val("");
                            }else{
+                                $("#user_management_id").val(data[0].id);
                                 $("#remaining_no_user").val(data[0].no_of_user);
                                 $("#default_value").val(data[0].no_of_user);
                            }

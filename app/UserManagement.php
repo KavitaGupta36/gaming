@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Level;
+use App\GameManagement;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,5 +23,10 @@ class UserManagement extends Model
     public function levelName()
     {
     	return $this->belongsTo('App\Level','level_name','id');
+    }
+
+    public function game()
+    {
+        return $this->hasOne('App\GameManagement');
     }
 }

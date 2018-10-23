@@ -20,8 +20,11 @@
 	                <tbody><tr>
 	                  <th>ID</th>
 	                  <th>Level</th>
-	                  <th>Number of voucher</th>
+	                  <th>No. of voucher</th>
 	                  <th>Price of voucher</th>
+	                  <th>No. of user point</th>
+	                  <th>No. of usre</th>
+	                  <th>Remaining No. of user point</th>
 	                  <th>Status</th>
 	                  <th>Action</th>
 	                </tr>
@@ -32,6 +35,9 @@
 		                  <td>{{ (isset($game->levelName->level_name) ? $game->levelName->level_name : '') }}</td>
 		                  <td>{{ $game->no_voucher }}</td>
 		                  <td>{{ $game->voucher_price }}</td>
+		                  <td>{{ $game->no_user_point }}</td>
+		                  <td>{{ $game->no_of_user }}</td>
+		                  <td>{{ $game->remaining_user }}</td>
 		                  <td>{{ $game->status == 1 ? 'Active' : 'Inactive' }}</td>
 		                  <td>
 		                  	<form action="{{ route('game.destroy', $game->id) }}" method="post">
